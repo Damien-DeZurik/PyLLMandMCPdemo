@@ -4,9 +4,10 @@ import os
 
 # System configuration
 output_dir = "output"
+DEBUG = False
 
 # Knobs and dials for the song of the day generator
-terseness=31 # number of words in lyrical theme suggestions. Is the max for the current model. n-1 is a good number to use for a short song.
+terseness=11 # number of words in lyrical theme suggestions. Is the max for the current model. n-1 is a good number to use for a short song.
 theme1="walking on a path near large pine trees"
 theme2="feet are eager to keep moving"
 adjective1="confident"
@@ -23,34 +24,36 @@ prompt = "Write lyrics for a short song. " \
     "provide a best attempt at your answer even if you do not understand emotions or personal experiences. " \
     "be createive, it's okay to be wrong if you do your best to provide something. "
 
-print("...")
-print("prompt: " + prompt)
-print("...")
+print("============================================================")
+if DEBUG:
+    print("...")
+    print("prompt: " + prompt)
+    print("...")
 
 response = ollama.chat(
     model="llama3",
-
     messages=[
         {
             "role": "user",
             "content": prompt,
         }
     ],
-    options={"temperature": 0.0} # low temp seems to bring on more creativity, but also more randomness. 0.0 is more deterministic and less random.
+    options={"temperature": 0.9}
 )
 
-## OUTPUT
-print("------------------------------------------------------------")
-print("model: " + response["model"]) 
-print("created_at: " + response["created_at"]) 
-print("total_duration: " + str(timedelta(seconds=response["total_duration"]/1000000000))) 
-print("prompt_eval_count: " + str(response["prompt_eval_count"])) 
-print("eval_count: " + str(response["eval_count"])) 
-print(">>>")
-print(response["message"]["content"])
-print("<<<")
-#print(response)
-print("------------------------------------------------------------")
+if DEBUG:
+    ## OUTPUT
+    print("------------------------------------------------------------")
+    print("model: " + response["model"]) 
+    print("created_at: " + response["created_at"]) 
+    print("total_duration: " + str(timedelta(seconds=response["total_duration"]/1000000000))) 
+    print("prompt_eval_count: " + str(response["prompt_eval_count"])) 
+    print("eval_count: " + str(response["eval_count"])) 
+    print(">>>")
+    print(response["message"]["content"])
+    print("<<<")
+    #print(response)
+    print("------------------------------------------------------------")
 
 
 genprompt="Use the sentiment " \
@@ -63,16 +66,17 @@ genprompt="Use the sentiment " \
 "Pick a tempo that matches the feel of the text. " \
 "Present the chord progression in a simple text format. " \
 "Create a chord progression for guitar or piano. " \
-"Don't ask any questions. Do not ask any follow-up questions. Provide only the direct answer and stop. "
+"Don't ask any questions. Provide only the direct answer and stop. "
 
-print("...")
-print("genprompt: " + genprompt)
-print("...")
+if DEBUG:
+    print("...")
+    print("genprompt: " + genprompt)
+    print("...")
 
 response = ollama.chat(
     model="llama3",
     messages=[{"role": "user","content": genprompt,}],
-    options={"temperature": 0.0}
+    options={"temperature": 0.2}
     )
 
 # write file
@@ -98,3 +102,4 @@ print("<<<")
 print("------------------------------------------------------------")
 
 print(f"Created file: {output_path}")
+print("============================================================")
