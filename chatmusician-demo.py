@@ -1,11 +1,9 @@
 import ollama
 
-
 theme1="Hot desert air and sun in the distance"
 theme2="Trying to find love with a language barrier"
 adjective1="hungry to prove yourself"
 adverb1="abruptly"
-
 
 prompt = "Create a short poem. " \
     "Base it on these two themes: '" + theme1 + "' and '" + theme2 + "'. " \
