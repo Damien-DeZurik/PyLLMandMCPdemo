@@ -18,9 +18,17 @@ prompt = "Create a short poem. " \
     "Suggest a tempo that fits the sentiment of the poem. " \
     "Show the chord progression in a simple text format. "
 
+# prompt = "Write a very simple chord progression for a song. " \
+#     "Pick a minor or major key at random. " \
+#     "Do not create any music, just show the chords, quickly. " \
+#     "Show the chord progression in a simple text format. " \
+#     "Keep trying up to 5 times to find the most interesting chord progression. "
+
+
+
 
 response = ollama.chat(
-    # model="llama3",
+    #model="llama3",
     model="SeekerThe3rd/chatmusician",
     messages=[
         {
